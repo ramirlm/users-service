@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: users-service
+  redis:
+    host: localhost
+    port: 6379
+  cloud:
+    config:
+      fail-fast: true
+      server:
+        git:
+          uri: https://github.com/ramirlm/users-service-config.git
