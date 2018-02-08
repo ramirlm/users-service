@@ -35,7 +35,10 @@ public class UserController {
 
     @PutMapping
     public String update(@Valid @RequestBody User user){
-        //TODO SOMENTE o Admin pode trocar a senha
+        User userRepo = userRepository.findOne(user.getId());
+        if(!user.getPassword().equals(userRepo.getPassword())){
+            //if(loggedUser)
+        }
         userRepository.save(user);
         return user.getId().toString();
     }

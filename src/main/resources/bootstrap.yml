@@ -11,7 +11,5 @@ spring:
       server:
         git:
           uri: https://github.com/ramirlm/users-service-config.git
-          username: ramirlm
-          password: Samu@G1T
   jpa:
     generate-ddl: true
