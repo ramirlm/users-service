@@ -21,15 +21,11 @@ public class Producer {
     private String routingKey;
 
 
-    public void produceMsg(String senderMail, String[] recipients, String message){
-        Message msg = new Message();
-        msg.setSenderEmail(senderMail);
-        msg.setRecipients(recipients);
-        msg.setMessage(message);
+    public void produceMsg(Message message){
 
-        amqpTemplate.convertAndSend(exchange, routingKey, msg);
+        amqpTemplate.convertAndSend(exchange, routingKey, message);
 
-        System.out.println("Send message"+message+" to " + recipients.length +" recipients");
+        System.out.println("Send message"+message.getMessage()+" to " + message.getRecipients().length +" recipients");
     }
 
 }

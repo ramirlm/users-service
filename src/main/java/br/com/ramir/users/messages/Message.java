@@ -5,6 +5,13 @@ public class Message {
     private String [] recipients;
     private String message;
 
+    public Message(String message) {
+        this.message = message;
+    }
+
+    public Message() {
+    }
+
     public String getSenderEmail() {
         return senderEmail;
     }
