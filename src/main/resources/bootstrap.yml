@@ -16,6 +16,9 @@ spring:
           clone-on-start: true
   jpa:
     generate-ddl: true
+  mail:
+    host: smtp.gmail.com
+
 jsa:
   rabbitmq:
     exchange: jsa.direct
