@@ -38,7 +38,6 @@ public class User implements Serializable {
 
     @Column(name = "createdDate")
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
     private Date createdDate;
 
     @Column(name = "updatedDate")
@@ -50,7 +49,7 @@ public class User implements Serializable {
     @NotEmpty
     private String email;
 
-    @Column(name = "isadmin")
+    @Column(name = "isAdmin")
     @NotNull
     private Boolean admin;
 
