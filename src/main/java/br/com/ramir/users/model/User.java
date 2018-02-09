@@ -1,55 +1,52 @@
 package br.com.ramir.users.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
-@Entity(name = "user")
+@Entity
+@Table(name="user")
 @Validated
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 5449082533640415196L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
+    @Column(nullable = false)
     @NotNull
     @NotEmpty
     private String name;
 
-    @Column(name = "login")
+    @Column(nullable = false,unique = true)
     @NotNull
     @NotEmpty
     private String login;
 
-    @Column(name = "password")
+    @Column(nullable = false)
     @NotNull
     @NotEmpty
     private String password;
 
-    @Column(name = "createdDate")
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
-    @Column(name = "email")
+    @Column(nullable = false,unique = true)
     @NotNull
     @NotEmpty
     private String email;
 
-    @Column(name = "isAdmin")
+    @Column(nullable = false)
     @NotNull
     private Boolean admin;
 
@@ -117,5 +114,14 @@ public class User implements Serializable {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public void updateFields(User user) {
+        this.login = user.getLogin();
+        this.password = user.getPassword();
+        this.admin = user.getAdmin();
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.updatedDate = new Date();
     }
 }

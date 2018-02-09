@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UsersServiceApplicationTests {
+public class RedisSessionTests {
 	private Jedis jedis;
 	private TestRestTemplate testRestTemplate;
 	private TestRestTemplate testRestTemplateWithAuth;
@@ -29,7 +29,7 @@ public class UsersServiceApplicationTests {
 	@Before
 	public void clearRedisData() {
 		testRestTemplate = new TestRestTemplate();
-		testRestTemplateWithAuth = new TestRestTemplate("admin", "password", null);
+		testRestTemplateWithAuth = new TestRestTemplate("ramir", "123123", null);
 
 		jedis = new Jedis("localhost", 6379);
 		jedis.flushAll();

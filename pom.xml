@@ -87,7 +87,16 @@
 		</dependency>
 
 	</dependencies>
-
+	<repositories>
+		<repository>
+			<id>users-service</id>
+			<name>Users Service</name>
+			<url>https://github.com/ramirlm/users-service-config.git</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

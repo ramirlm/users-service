@@ -1,17 +1,23 @@
 package br.com.ramir.users;
 
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("br.com.ramir.users.repo")//TODO TIRAR DAI
-public class UsersServiceApplication {
+@EnableConfigServer
+@EnableJpaRepositories("br.com.ramir.users.repo")
+public class UsersServiceApplication extends SpringBootServletInitializer {
 
 
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(UsersServiceApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(UsersServiceApplication.class, args);

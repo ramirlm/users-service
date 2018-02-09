@@ -5,6 +5,9 @@ import br.com.ramir.users.repo.UserRepository;
 import br.com.ramir.users.security.Credential;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,12 +23,14 @@ public class UserController {
     @Autowired
     private Credential credential;
 
+    @Secured("ROLE_USER")
     @GetMapping("{id}")
-    public String find(@PathVariable Long id){ //TODO Checar o usuário logado em todos os métodos
+    public String find(@PathVariable Long id){
         User user = userRepository.findOne(id);
         return user.getName();
     }
 
+    @Secured("ROLE_USER")
     @GetMapping("list")
     public Iterable<User> list(){
         return userRepository.findAll();
@@ -34,11 +39,15 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String create(@Valid @RequestBody User user){
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+
         user.setCreatedDate(new Date());
         userRepository.save(user);
         return "User Created with ID :"+user.getId().toString();
     }
 
+    @Secured("ROLE_USER")
     @PutMapping
     public String update(@RequestBody User user){
         User userRepo = userRepository.findOne(user.getId());
@@ -47,10 +56,12 @@ public class UserController {
                 return "ERROR - Only Admins are able to change users passwords";
             }
         }
+        userRepo.updateFields(user);
         userRepository.save(user);
         return "User Updated!";
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     public String delete(@PathVariable Long id){
         if(credential.getUser().getAdmin()) {

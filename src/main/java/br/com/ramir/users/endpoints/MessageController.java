@@ -6,12 +6,13 @@ import br.com.ramir.users.model.User;
 import br.com.ramir.users.repo.UserRepository;
 import br.com.ramir.users.security.Credential;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/email")
 public class MessageController {
 
     @Autowired
@@ -23,7 +24,8 @@ public class MessageController {
     @Autowired
     private Credential credential;
 
-    @PostMapping("user/{id}")
+    @Secured("ROLE_USER")
+    @PostMapping("{id}")
     public String message(@PathVariable Long id, @RequestParam(value = "message") String message) {
 
         if(id == null){

@@ -1,6 +1,6 @@
 package br.com.ramir.users.endpoints;
 
-import br.com.ramir.users.security.Credential;
+import br.com.ramir.users.model.User;
 import br.com.ramir.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("/login")
 public class LoginController {
 
-    private UserService userService;
-
     @Autowired
-    private Credential credential;
+    private UserService userService;
 
     @GetMapping
     public ModelAndView loginPage(Model model) {
@@ -25,19 +22,25 @@ public class LoginController {
     }
 
     @PostMapping
+    @RequestMapping()
     public String login(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password){
 
         try{
+            User user = userService.login(login,password);
 
-            Authentication auth = new UsernamePasswordAuthenticationToken(login,password);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            if(user != null && user.getPassword().equals(password)){
+
+                Authentication auth = new UsernamePasswordAuthenticationToken(login,password);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+
+                return "LOGGED";
+            }
+
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
 
-
-
-        return "LOGGED";
+        return "ERROR - USER NOT FOUND";
     }
 }
