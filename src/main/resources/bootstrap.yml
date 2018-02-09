@@ -3,19 +3,12 @@ spring:
     store-type: redis
   application:
     name: users-service
-  datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 123123
-    url: jdbc:h2:tcp://localhost/~/test
   cloud:
     config:
       server:
         git:
           uri: https://github.com/ramirlm/users-service-config.git
           clone-on-start: true
-  jpa:
-    generate-ddl: true
   mail:
     host: smtp.gmail.com
 
