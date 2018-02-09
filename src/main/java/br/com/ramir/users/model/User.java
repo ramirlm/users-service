@@ -8,13 +8,14 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "user")
 @Validated
-public class User implements UserDetails {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +24,6 @@ public class User implements UserDetails {
     @Column(name = "name")
     @NotNull
     @NotEmpty
-
     private String name;
 
     @Column(name = "login")
@@ -54,40 +54,9 @@ public class User implements UserDetails {
     @NotNull
     private Boolean admin;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> auth = new ArrayList<>();
-        auth.add((new SimpleGrantedAuthority("READ_WRITE")));
-        return auth;
-    }
 
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public void setPassword(String password) {

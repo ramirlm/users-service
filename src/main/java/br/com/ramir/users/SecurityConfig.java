@@ -1,5 +1,7 @@
 package br.com.ramir.users;
 
+import br.com.ramir.users.security.AuthProviderService;
+import br.com.ramir.users.security.Credential;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,10 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private AuthProviderService authProvider;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication()
-                .withUser("admin").password("123123").roles("ADMIN");
+            .authenticationProvider(authProvider);
     }
 
     @Override
@@ -23,15 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                .antMatchers("/").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-            .logout()
-                .permitAll();
+                .antMatchers("/").permitAll();
 
         http.csrf().disable();
     }

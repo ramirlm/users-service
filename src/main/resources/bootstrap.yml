@@ -13,3 +13,8 @@ spring:
           uri: https://github.com/ramirlm/users-service-config.git
   jpa:
     generate-ddl: true
+jsa:
+  rabbitmq:
+    exchange: jsa.direct
+    routingkey: jsa.routingkey
+    queue: email-queue

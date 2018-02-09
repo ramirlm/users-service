@@ -1,21 +1,21 @@
 package br.com.ramir.users.endpoints;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.ramir.users.messages.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/message")
 public class MessageController {
 
-    @GetMapping("/admins")
-    public String messageToAdmin() {
-        return "login/login";
-    }
+    @Autowired
+    Producer producer;
 
-    @GetMapping("/user/{id}")
-    public String messageToUser(@PathVariable Long id) {
-        return "login/login";
+    @PostMapping("user/{id}")
+    public String message(@PathVariable Long id, @RequestParam(value = "message") String message) {
+        if(id == null)
+            producer.produceMsgToAdmins(message);
+
+        return "Message Sent";
     }
 }
